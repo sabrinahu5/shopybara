@@ -1,3 +1,5 @@
+import { SignUpButton } from "@clerk/nextjs";
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
@@ -15,12 +17,11 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <a
-              href="/signup"
-              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 transition-colors"
-            >
-              Get Started
-            </a>
+            <SignUpButton mode="modal">
+              <button className="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 transition-colors">
+                Get Started
+              </button>
+            </SignUpButton>
           </div>
 
           {/* Feature Grid */}
