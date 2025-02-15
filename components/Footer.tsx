@@ -8,7 +8,7 @@ export default function NavBar() {
           </div>
           <div className="flex gap-6">
             <a
-              href="#"
+              href="/privacy"
               className="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
             >
               Privacy
