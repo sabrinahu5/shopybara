@@ -85,7 +85,7 @@ export default function Onboarding() {
       console.log('Analysis:', analysisData);
 
       // If successful, redirect to home
-      router.push('/home');
+      router.push('/home?newUser=true');
     } catch (error) {
       console.error('Error:', error);
       setError(error instanceof Error ? error.message : 'Failed to connect to Spotify');
