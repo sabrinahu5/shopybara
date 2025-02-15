@@ -6,7 +6,7 @@ export default function LandingPage() {
       <main className="px-4 sm:px-6 lg:px-20 pt-20 pb-16">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            Your Spotify Songs,
+            <small>your</small> Spotify Songs <small>&</small> Pinterest Boards,
             <br />
             <span className="">Turned to Room Inspos</span>
           </h1>
