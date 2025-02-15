@@ -17,16 +17,19 @@ export default function PinterestModalWrapper() {
 
   const handleModalClose = (pinterestUrl?: string) => {
     if (pinterestUrl) {
-      fetch('/api/pinterest/save', {
+      // Only analyze the Pinterest board
+      fetch('/api/pinterest/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: pinterestUrl })
       })
-      .then(() => {
+      .then(response => response.json())
+      .then(data => {
+        console.log('Pinterest Analysis Response:', data);
         setShowModal(false);
       })
       .catch((error) => {
-        console.error('Error saving Pinterest URL:', error);
+        console.error('Error processing Pinterest board:', error);
       });
     } else {
       setShowModal(false);
