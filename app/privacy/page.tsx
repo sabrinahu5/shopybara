@@ -45,7 +45,7 @@ export default function Privacy() {
               <h2 className="text-xl font-semibold mb-2">Important Notes</h2>
               <ul className="list-disc pl-6 space-y-1">
                 <li>We use industry-standard security measures</li>
-                <li>We don't sell your personal information</li>
+                <li>We don&apos;t sell your personal information</li>
                 <li>Our service is not intended for users under 13</li>
               </ul>
             </section>
