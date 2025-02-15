@@ -3,13 +3,12 @@ import { SignUpButton } from "@clerk/nextjs";
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      {/* Hero Section */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="text-center max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            Your Pinterest boards,
+            Your Spotify Songs,
             <br />
-            <span className="text-teal-600">brought to life</span>
+            <span className="text-teal-600">Turned to Room Inspos</span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed">
             Discover and shop furniture that matches your Pinterest inspiration,
@@ -24,8 +23,7 @@ export default function LandingPage() {
             </SignUpButton>
           </div>
 
-          {/* Feature Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-6">
               <div className="text-2xl mb-3">🎯</div>
               <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">

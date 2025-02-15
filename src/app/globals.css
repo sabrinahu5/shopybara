@@ -4,13 +4,13 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1a1a1a;
+  --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1a1a1a;
-    --foreground: #ffffff;
+    --background: #0a0a0a;
+    --foreground: #ededed;
   }
 }
 
@@ -18,15 +18,4 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Add smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Add custom font smoothing */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
