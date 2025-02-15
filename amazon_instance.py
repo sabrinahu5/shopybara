@@ -2,7 +2,7 @@ import time
 from scrapybara import Scrapybara
 from playwright.sync_api import sync_playwright
 
-client = Scrapybara(api_key="scrapy-eec9c644-0de2-4a4b-baeb-b6e6bbc4bb66")
+client = Scrapybara() # ADD KEY
 
 instance = client.start_ubuntu(timeout_hours=1)
 
