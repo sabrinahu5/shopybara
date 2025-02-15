@@ -45,7 +45,7 @@ export default function Onboarding() {
     params.append("client_id", process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!);
     params.append("response_type", "code");
     params.append("redirect_uri", "http://localhost:3000/onboarding");
-    params.append("scope", "user-read-private user-read-email user-top-read playlist-read-private");
+    params.append("scope", "user-read-private user-read-email user-top-read");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
 
@@ -73,6 +73,16 @@ export default function Onboarding() {
       if (data.error) {
         throw new Error(data.error);
       }
+
+      // Get analysis of user's music taste
+      const analysisResponse = await fetch('/api/spotify/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_token: data.access_token })
+      });
+
+      const analysisData = await analysisResponse.json();
+      console.log('Analysis:', analysisData);
 
       // If successful, redirect to home
       router.push('/home');
