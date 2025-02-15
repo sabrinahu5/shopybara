@@ -7,7 +7,7 @@ export default function AmazonFindCard(results: AmazonFindCard) {
         <div className="flex flex-col gap-3 overflow-hidden text-[#26262F]">
           <img
             src={results.image_url}
-            className="border border-[#F3F3FB] object-cover"
+            className="h-40 w-40 border border-[#F3F3FB] object-cover"
           />
           <h1 className="font-semibold">{results.title}</h1>
         </div>
