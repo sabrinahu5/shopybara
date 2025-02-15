@@ -69,39 +69,16 @@ export async function POST(request: Request) {
       model: "gpt-3.5-turbo",
     });
 
-    const analysis = vibeAnalysis.choices[0].message.content;
-
-    // Get room curation based on vibe analysis
-    const roomCuration = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are an expert interior designer who specializes in creating cohesive, personalized spaces that reflect individual style.",
-        },
-        {
-          role: "user",
-          content: `Based on this personality and vibe analysis: "${analysis}", create a detailed list of exactly 15 specific furniture and decor items that would create a cohesive bedroom design reflecting this person's style. Be specific with materials, colors, and styles. Format as a numbered list. List each specific item without description. Focus on creating a unified aesthetic that matches their personality.`,
-        },
-      ],
-      model: "gpt-3.5-turbo",
-    });
-
-    const curation = roomCuration.choices[0].message.content;
-
     return NextResponse.json({
       success: true,
       data: {
-        topArtists: topArtists.items,
-        topTracks: topTracks.items,
-        vibeAnalysis: analysis,
-        roomCuration: curation,
+        vibeAnalysis: vibeAnalysis.choices[0].message.content
       },
     });
   } catch (error) {
-    console.error("Error analyzing user data:", error);
+    console.error("Error analyzing music taste:", error);
     return NextResponse.json(
-      { error: "Failed to analyze user data" },
+      { error: "Failed to analyze music taste" },
       { status: 500 }
     );
   }

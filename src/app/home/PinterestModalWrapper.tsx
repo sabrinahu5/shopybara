@@ -17,19 +17,34 @@ export default function PinterestModalWrapper() {
 
   const handleModalClose = (pinterestUrl?: string) => {
     if (pinterestUrl) {
-      // Only analyze the Pinterest board
+      // First, analyze the Pinterest board
       fetch('/api/pinterest/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: pinterestUrl })
       })
       .then(response => response.json())
-      .then(data => {
-        console.log('Pinterest Analysis Response:', data);
+      .then(pinterestData => {
+        // Get the Spotify analysis from localStorage (saved during onboarding)
+        const spotifyData = JSON.parse(localStorage.getItem('spotifyAnalysis') || '{}');
+        
+        // Combine both analyses
+        return fetch('/api/combine-analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            spotifyData,
+            pinterestData: pinterestData.data
+          })
+        });
+      })
+      .then(response => response.json())
+      .then(finalAnalysis => {
+        console.log('Combined Analysis:', finalAnalysis);
         setShowModal(false);
       })
       .catch((error) => {
-        console.error('Error processing Pinterest board:', error);
+        console.error('Error processing analyses:', error);
       });
     } else {
       setShowModal(false);

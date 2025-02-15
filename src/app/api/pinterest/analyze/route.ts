@@ -50,7 +50,7 @@ async function getImageDescriptions(imageUrls: string[]) {
           {
             role: "user",
             content: [
-              { type: "text", text: "Describe this image in specific detail in 1-2 sentences." },
+              { type: "text", text: "Give 5-6 words that describe the vibe of this image. This can include any standout colors, activities, or objects." },
               {
                 type: "image_url",
                 image_url: { url },
