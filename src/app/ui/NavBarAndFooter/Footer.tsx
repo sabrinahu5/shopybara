@@ -1,10 +1,10 @@
 export default function NavBar() {
   return (
-    <footer className="border-t border-gray-100 dark:border-gray-800">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="border-t border-gray-200 dark:border-gray-800">
+      <div className="px-4 sm:px-6 lg:px-20 py-6">
         <div className="flex justify-between items-center">
           <div className="text-lg font-semibold text-gray-900 dark:text-white">
-            shopy<span className="text-teal-600">bara</span>
+            shopy<span className="text-[#464646]">bara</span>
           </div>
           <div className="flex gap-6">
             <a
@@ -22,6 +22,6 @@ export default function NavBar() {
           </div>
         </div>
       </div>
-    </footer>
+    </div>
   );
 }

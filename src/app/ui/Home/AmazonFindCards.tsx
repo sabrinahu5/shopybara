@@ -1,14 +1,27 @@
 import { getAmazonFinds } from "@/app/lib/data";
 import AmazonFindCard from "./AmazonFindCard";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default async function AmazonFindCards() {
   const results = await getAmazonFinds();
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {results.map((result) => (
-        <AmazonFindCard key={result.id} {...result} />
-      ))}
-    </div>
+    <Carousel>
+      <CarouselContent>
+        {results.map((result) => (
+          <CarouselItem key={result.id} className="h-[24rem] basis-1/4">
+            <AmazonFindCard key={result.id} {...result} />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
   );
 }
