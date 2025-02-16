@@ -44,7 +44,7 @@ function OnboardingContent() {
     const params = new URLSearchParams();
     params.append("client_id", process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!);
     params.append("response_type", "code");
-    params.append("redirect_uri", "http://localhost:3000/onboarding");
+    params.append("redirect_uri", "https://shopybara.vercel.app/onboarding");
     params.append("scope", "user-read-private user-read-email user-top-read");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
@@ -59,7 +59,7 @@ function OnboardingContent() {
       params.append("client_id", process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!);
       params.append("grant_type", "authorization_code");
       params.append("code", code);
-      params.append("redirect_uri", "http://localhost:3000/onboarding");
+      params.append("redirect_uri", "https://shopybara.vercel.app/onboarding");
       params.append("code_verifier", verifier!);
 
       const result = await fetch("https://accounts.spotify.com/api/token", {
