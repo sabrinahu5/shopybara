@@ -10,7 +10,32 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (!error && user) {
+      // Check if user has a profile
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select()
+        .eq("email", user.email)
+        .single();
+
+      if (profileError || !profile) {
+        // Insert a new profile if none exists
+        const { error: insertError } = await supabase
+          .from("profiles")
+          .insert({ email: user.email });
+
+        if (insertError) {
+          console.error("Error inserting profile:", insertError);
+          return NextResponse.redirect(`${origin}/login`, 400);
+        }
+      }
+    }
+
     if (!error) {
       const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === "development";

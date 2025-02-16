@@ -4,9 +4,11 @@ import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const supabase = createClient();
+  const router = useRouter();
   const [user, setUser] = useState<null | User>(null);
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export default function NavBar() {
     };
 
     checkUser();
-  }, []);
+  }, [user]);
 
   const handleSignIn = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -47,7 +49,7 @@ export default function NavBar() {
       throw error;
     }
 
-    redirect("/");
+    router.push("/");
   };
 
   return (
@@ -66,12 +68,15 @@ export default function NavBar() {
                 Sign In
               </button>
             ) : (
-              <button
-                onClick={handleSignOut}
-                className="px-4 py-2 text-[#464646] dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                Sign Out
-              </button>
+              <div className="flex items-center">
+                <h1>Hi {user!.email}</h1>
+                <button
+                  onClick={handleSignOut}
+                  className="px-4 py-2 text-[#464646] dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  Sign Out
+                </button>
+              </div>
             )}
           </div>
         </div>

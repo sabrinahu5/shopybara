@@ -56,8 +56,23 @@ const amazonFinds = [
 export default async function LandingPage() {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
   if (data?.user) {
+    // check if they already have a profile
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select()
+      .eq("email", data.user.email)
+      .single();
+
+    if (profile) {
+      redirect("/home");
+    }
+
+    if (profileError || !profile) {
+      redirect("/login");
+    }
+
     redirect("/onboarding");
   }
 
