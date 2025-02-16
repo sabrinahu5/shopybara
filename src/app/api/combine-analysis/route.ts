@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { processAndStoreAmazonUrls } from "@/app/lib/amazon";
 import { createServerSupabaseClient } from "@/lib/server-utils";
+import crypto from 'crypto';
 
 
-const flag = true;
+const flag = false;
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -228,12 +229,13 @@ export async function POST(request: Request) {
         const { data, error } = await supabase
           .from('amazon_finds')
           .insert({
+            id: crypto.randomUUID(),
             title: url.title,
             description: url.description,
             url_to_product: url.url_to_product,
             image_url: url.image_url,
             price: url.price,
-            profile_id: user.id,
+            profile_id: url.profile_id,
             created_at: new Date().toISOString()
           })
           .select();
