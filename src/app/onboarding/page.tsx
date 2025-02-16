@@ -74,7 +74,6 @@ export default function Onboarding() {
         throw new Error(data.error);
       }
 
-      // Get analysis of user's music taste
       const analysisResponse = await fetch('/api/spotify/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -82,7 +81,10 @@ export default function Onboarding() {
       });
 
       const analysisData = await analysisResponse.json();
-      console.log('Analysis:', analysisData);
+
+      // Store both analysis and token
+      localStorage.setItem('spotifyAnalysis', JSON.stringify(analysisData.data));
+      localStorage.setItem('spotifyToken', data.access_token);
 
       // If successful, redirect to home
       router.push('/home?newUser=true');

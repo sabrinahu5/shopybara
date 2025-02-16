@@ -18,23 +18,31 @@ export default function PinterestModalWrapper() {
   const handleModalClose = async (pinterestUrl?: string) => {
     if (pinterestUrl) {
       try {
-        // Get Pinterest analysis
-        const pinterestResponse = await fetch('/api/pinterest/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: pinterestUrl })
-        });
-        const pinterestData = await pinterestResponse.json();
+        const spotifyToken = localStorage.getItem('spotifyToken');
+        
+        if (!spotifyToken) {
+          throw new Error('No Spotify token found');
+        }
 
-        // Get Spotify analysis with demo token
-        const spotifyResponse = await fetch('/api/spotify/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ access_token: 'demo_token' })
-        });
-        const spotifyData = await spotifyResponse.json();
+        // Fetch both analyses in parallel
+        const [pinterestResponse, spotifyResponse] = await Promise.all([
+          fetch('/api/pinterest/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: pinterestUrl })
+          }),
+          fetch('/api/spotify/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ access_token: spotifyToken })
+          })
+        ]);
 
-        // Combine both analyses
+        const [pinterestData, spotifyData] = await Promise.all([
+          pinterestResponse.json(),
+          spotifyResponse.json()
+        ]);
+
         const combinedResponse = await fetch('/api/combine-analysis', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
