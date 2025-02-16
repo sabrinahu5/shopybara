@@ -1,6 +1,8 @@
 'use client'
 
 import { createBrowserSupabaseClient } from "@/lib/client-utils";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import SpotifyAlbumDemo from "./ui/Home/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
 import { FlipWords } from "./ui/Home/FlipWords";
@@ -58,10 +60,21 @@ const amazonFinds = [
   }
 ];
 
-export default async function LandingPage() {
+export default function LandingPage() {
   const supabase = createBrowserSupabaseClient();
-
+  const router = useRouter();
   const words = ["Spotify", "Pinterest"];
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        router.push('/home');
+      }
+    };
+    
+    checkUser();
+  }, [supabase, router]);
 
   const handleSignUp = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
