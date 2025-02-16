@@ -1,4 +1,5 @@
 import { getAmazonFinds } from "@/app/lib/data";
+import { createServerSupabaseClient } from "@/lib/server-utils";
 import AmazonFindCard from "./AmazonFindCard";
 import {
   Carousel,
@@ -9,14 +10,21 @@ import {
 } from "@/components/ui/carousel";
 
 export default async function AmazonFindCards() {
-  const results = await getAmazonFinds();
+  const supabase = createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) {
+    return null;
+  }
+
+  const amazonFinds = await getAmazonFinds(user.id);
 
   return (
     <Carousel className="w-full">
       <CarouselContent className="-ml-2 md:-ml-4">
-        {results.map((result) => (
-          <CarouselItem key={result.id} className="pl-2 md:pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-            <AmazonFindCard key={result.id} {...result} />
+        {amazonFinds.map((find) => (
+          <CarouselItem key={find.id} className="pl-2 md:pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+            <AmazonFindCard key={find.id} {...find} />
           </CarouselItem>
         ))}
       </CarouselContent>
