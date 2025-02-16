@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SpotifyAlbumDemo from "./ui/Home/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
-import { FlipWords } from "./ui/Home/FlipWords";
+import { WordRotate } from "./ui/Home/FlipWords";
 
 const amazonFinds = [
   {
@@ -35,7 +35,7 @@ const amazonFinds = [
     title: "Geometric Area Rug 5x7",
     description: "Contemporary geometric pattern rug in neutral tones, soft pile height",
     url_to_product: "https://amazon.com/sample-product-3",
-    image_url: "https://images.unsplash.com/photo-1531985673600-75d2b348ad3c",
+    image_url: "https://plus.unsplash.com/premium_photo-1725570022235-31331a924383?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: "$129.99"
   },
   {
@@ -99,57 +99,25 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="min-h-screen flex items-center">
         <div className="px-4 sm:px-6 lg:px-20 w-full">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-              Your <FlipWords words={words} /> <br />
-              <span className="">Turned to Room Inspo</span>
+          <div className="text-left max-w-3xl mx-auto">
+            <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-relaxed">
+              <span>Your </span><WordRotate words={words} /> <br />
+              <span> Turned to Room Inspo</span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed">
               Discover and shop furniture that matches your Pinterest inspiration,
               powered by AI that understands your style.
             </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 justify-right mb-16">
             <button
               onClick={handleSignUp}
               className="px-8 py-0.5  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] ">
               Get Started
             </button>
           </div>
-
-            {/* Features Section - Moved here */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-              <div className="p-6 rounded-lg">
-                <div className="text-2xl mb-3">🎯</div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-                  Connect Pinterest
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Link your Pinterest boards with one click
-                </p>
-              </div>
-
-              <div className="p-6 rounded-lg">
-                <div className="text-2xl mb-3">✨</div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-                  Get Matches
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Our AI finds products that match your style
-                </p>
-              </div>
-
-              <div className="p-6 rounded-lg">
-                <div className="text-2xl mb-3">🛋️</div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-                  Shop Confidently
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Purchase furniture you know will fit your vision
-                </p>
-              </div>
-            </div>
-
+          </div>
+          <div className= "text-center max-w-3xl mx-auto">
             {/* Scroll down indicator */}
             <div className="animate-bounce">
               <p className="text-gray-600 dark:text-gray-400 mb-2">See how it works</p>
