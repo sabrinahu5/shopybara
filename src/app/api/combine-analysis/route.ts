@@ -47,7 +47,9 @@ export async function POST(request: Request) {
         .from('profiles')
         .insert({
           id: user.id,
-          email: user.email // Now TypeScript knows email is defined
+          email: user.email,
+          display_name: user.user_metadata?.full_name || user.email?.split('@')[0] || '', // Fallback chain
+          biography: null // Optional, can be omitted
         });
 
       if (profileError) {
