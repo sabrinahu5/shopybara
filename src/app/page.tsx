@@ -4,6 +4,7 @@ import { InfiniteMovingCards } from "./ui/LandingPage/InfiniteMovingCards";
 const amazonFinds = [
   {
     id: "1",
+    profile_id: "default",
     created_at: new Date(),
     title: "Modern Velvet Accent Chair",
     description:
@@ -14,6 +15,7 @@ const amazonFinds = [
   },
   {
     id: "2",
+    profile_id: "default",
     created_at: new Date(),
     title: "Minimalist Coffee Table",
     description: "Scandinavian-style wooden coffee table with white marble top",
@@ -23,6 +25,7 @@ const amazonFinds = [
   },
   {
     id: "3",
+    profile_id: "default",
     created_at: new Date(),
     title: "Geometric Area Rug 5x7",
     description:
@@ -33,6 +36,7 @@ const amazonFinds = [
   },
   {
     id: "4",
+    profile_id: "default",
     created_at: new Date(),
     title: "Industrial Pendant Light",
     description: "Matte black metal pendant light with exposed bulb design",
@@ -42,6 +46,7 @@ const amazonFinds = [
   },
   {
     id: "5",
+    profile_id: "default",
     created_at: new Date(),
     title: "Floating Wall Shelves Set",
     description: "Set of 3 wooden floating shelves with hidden brackets",
@@ -56,16 +61,25 @@ export default async function LandingPage() {
     <div className="dark:bg-gray-900">
       {/* Hero Section */}
       <section className="min-h-screen flex items-center">
-        <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            <small>your</small> Spotify Songs <small>&</small> Pinterest Boards,
-            <br />
-            <span className="">Turned to Room Inspos</span>
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed">
-            Discover and shop furniture that matches your Pinterest inspiration,
-            powered by AI that understands your style.
-          </p>
+        <div className="px-4 sm:px-6 lg:px-20 w-full">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+              <small>your</small> Spotify Songs <small>&</small> Pinterest Boards,
+              <br />
+              <span className="">Turned to Room Inspos</span>
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed">
+              Discover and shop furniture that matches your Pinterest inspiration,
+              powered by AI that understands your style.
+            </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <button
+              onClick={handleSignUp}
+              className="px-8 py-0.5  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] ">
+              Get Started
+            </button>
+          </div>
 
           {/* Features Section - Moved here */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">

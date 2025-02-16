@@ -19,8 +19,8 @@ export async function GET(request: Request) {
       // Check if user has a profile
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
-        .select()
-        .eq("email", user.email)
+        .select("*")
+        .eq("id", user.id)
         .single();
 
       if (profileError || !profile) {

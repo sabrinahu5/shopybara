@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { OpenAI } from "openai";
 import { chromium } from "playwright";
-import { load } from "cheerio";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -10,27 +9,27 @@ const openai = new OpenAI({
 async function scrapeImages(url: string) {
   const browser = await chromium.launch();
   const page = await browser.newPage();
+
+  // Set a shorter timeout
+  page.setDefaultTimeout(5000);
+
   await page.goto(url);
 
-  // Scroll a few times to load more images
-  for (let i = 0; i < 1; i++) {
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await page.waitForTimeout(1000);
-  }
+  // Only scroll once and reduce wait time
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(500);
 
-  const html = await page.content();
-  await browser.close();
-
-  const $ = load(html);
-  const imageUrls: string[] = [];
-
-  $("img").each((_, element) => {
-    const src = $(element).attr("src");
-    if (src && !src.includes("profile") && !src.includes("avatar")) {
-      imageUrls.push(src);
-    }
+  const imageUrls = await page.evaluate(() => {
+    const images = Array.from(document.querySelectorAll("img"));
+    return images
+      .map((img) => img.src)
+      .filter(
+        (src) => src && !src.includes("profile") && !src.includes("avatar")
+      )
+      .slice(0, 10); // Limit to 10 images for faster processing
   });
 
+  await browser.close();
   return imageUrls;
 }
 
@@ -45,7 +44,7 @@ async function getImageDescriptions(imageUrls: string[]) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "user",
@@ -82,6 +81,9 @@ export async function POST(request: Request) {
 
     // Get descriptions for each image
     const descriptions = await getImageDescriptions(imageUrls);
+
+    console.log("Scraped image URLs:", imageUrls);
+    console.log("Descriptions:", descriptions);
 
     return NextResponse.json({
       success: true,
