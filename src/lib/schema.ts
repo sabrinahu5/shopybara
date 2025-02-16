@@ -7,14 +7,20 @@ export interface Database {
         Row: {
           email: string;
           id: string;
+          display_name: string;
+          biography: string | null;
         };
         Insert: {
           email: string;
           id: string;
+          display_name: string;
+          biography?: string | null;
         };
         Update: {
           email?: string;
           id?: string;
+          display_name?: string;
+          biography?: string | null;
         };
         Relationships: [
           {
