@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function generateCodeVerifier(length: number) {
@@ -21,7 +21,7 @@ async function generateCodeChallenge(codeVerifier: string) {
     .replace(/=+$/, '');
 }
 
-export default function Onboarding() {
+function OnboardingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
@@ -112,4 +112,12 @@ export default function Onboarding() {
   }
 
   return null;
+}
+
+export default function Onboarding() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OnboardingContent />
+    </Suspense>
+  );
 }

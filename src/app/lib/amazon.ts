@@ -58,7 +58,7 @@ export async function processAndStoreAmazonUrls(urls: string[], userId: string) 
           continue;
         }
 
-        // Create AmazonFindCard object
+        // Create AmazonFindCard object with UUID
         const findCard: Omit<AmazonFindCard, 'id' | 'created_at'> = {
           title,
           description,
@@ -80,8 +80,9 @@ export async function processAndStoreAmazonUrls(urls: string[], userId: string) 
         // Insert into Supabase
         const { data, error } = await supabase
           .from('amazon_finds')
-          .upsert([{
+          .insert([{
             ...findCard,
+            id: crypto.randomUUID(),
             created_at: new Date().toISOString()
           }])
           .select();
@@ -96,7 +97,14 @@ export async function processAndStoreAmazonUrls(urls: string[], userId: string) 
             id: data[0].id,
             title: data[0].title
           });
-          results.push(data[0]);
+          
+          // Convert the created_at string to a Date object
+          const findWithDateObject = {
+            ...data[0],
+            created_at: new Date(data[0].created_at)
+          };
+          
+          results.push(findWithDateObject);
         }
 
       } catch (error) {

@@ -31,14 +31,20 @@ export async function POST(request: Request) {
       .single();
 
     if (!profile) {
+      // Skip profile creation if email is missing
+      if (!user.email) {
+        return NextResponse.json(
+          { error: 'User email is required' },
+          { status: 400 }
+        );
+      }
+
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert([
-          {
-            id: user.id,
-            email: user.email
-          }
-        ]);
+        .insert({
+          id: user.id,
+          email: user.email // Now TypeScript knows email is defined
+        });
 
       if (profileError) {
         console.error('Error creating profile:', profileError);
