@@ -44,6 +44,17 @@ export async function POST(request: Request) {
   try {
     const { access_token }: { access_token: string } = await request.json();
 
+    // For demo token, return a fixed analysis
+    if (access_token === 'demo_token') {
+      return NextResponse.json({
+        success: true,
+        data: {
+          vibeAnalysis: "This track exemplifies a sophisticated blend of modern aesthetics with classic sensibilities. The sonic palette suggests an appreciation for clean lines and minimalist design, while maintaining warmth and emotional depth. The overall mood points to someone who values both contemporary innovation and timeless elegance, with an eye for subtle details and refined taste.",
+          roomCuration: "// ... room curation items ..."
+        }
+      });
+    }
+
     // Get Spotify data
     const [topArtists, topTracks] = await Promise.all([
       getTopItems(access_token, "artists"),
