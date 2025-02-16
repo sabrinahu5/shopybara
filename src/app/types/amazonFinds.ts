@@ -6,4 +6,5 @@ export type AmazonFindCard = {
   url_to_product: string;
   image_url: string;
   price: string;
+  profile_id: string;
 };

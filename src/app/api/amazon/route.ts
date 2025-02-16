@@ -19,24 +19,28 @@ export async function POST(request: Request) {
 
     const context = await browser.newContext();
     const page = await context.newPage();
+    
+    // Set a global timeout for navigation
+    page.setDefaultNavigationTimeout(5000);
+    // Set a global timeout for other operations
+    page.setDefaultTimeout(5000);
+    
     await page.goto('https://www.amazon.com/');
 
     for (const searchTerm of searchTerms) {
       try {
-        // Find and use the search box
         await page.fill('#twotabsearchtextbox', searchTerm);
         await page.press('#twotabsearchtextbox', 'Enter');
         
-        // Wait for either condition to be met
+        // Reduced timeout for network idle and selector wait
         await Promise.race([
-          page.waitForLoadState('networkidle', { timeout: 10000 }),
-          page.waitForSelector('div[data-component-type="s-search-result"]', { timeout: 10000 })
+          page.waitForLoadState('networkidle', { timeout: 3000 }),
+          page.waitForSelector('div[data-component-type="s-search-result"]', { timeout: 3000 })
         ]);
 
-        // Add a small delay to ensure content is loaded
-        await page.waitForTimeout(2000);
+        // Reduced delay
+        await page.waitForTimeout(1000);
 
-        // Get the first product result
         const firstProduct = await page.locator('div[data-component-type="s-search-result"] a.a-link-normal').first();
         
         if (firstProduct) {
@@ -53,12 +57,11 @@ export async function POST(request: Request) {
         }
       } catch (searchError) {
         console.error(`Error searching for "${searchTerm}":`, searchError);
-        continue; // Skip to next search term if this one fails
+        continue;
       }
     }
 
     await browser.close();
-
     return NextResponse.json({ items });
   } catch (error) {
     console.error('Amazon scraping error:', error);

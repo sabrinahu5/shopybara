@@ -1,13 +1,27 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { processAndStoreAmazonUrls } from "@/app/lib/amazon";
+import { createServerSupabaseClient } from "@/lib/server-utils";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(request: Request) {
+  const supabase = createServerSupabaseClient();
+  
   try {
     const { spotifyData, pinterestData } = await request.json();
+
+    // Get the current user
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    
+    if (userError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
 
     console.log('Spotify Analysis:', spotifyData.vibeAnalysis);
     console.log('Pinterest Analysis:', pinterestData.descriptions);
@@ -51,16 +65,18 @@ export async function POST(request: Request) {
 
     const amazonUrls = await handleAmazonSearch(combinedAnalysis.choices[0].message.content || '');
 
-    console.log('Combined Analysis:', combinedAnalysis.choices[0].message.content);
+    // Process and store Amazon URLs
+    const storedFinds = await processAndStoreAmazonUrls(amazonUrls, user.id);
+
     return NextResponse.json({
       success: true,
       data: combinedAnalysis.choices[0].message.content,
-      amazonUrls: amazonUrls
+      amazonUrls: storedFinds
     });
   } catch (error) {
-    console.error("Error combining analyses:", error);
+    console.error('Error in combine-analysis:', error);
     return NextResponse.json(
-      { error: "Failed to combine analyses" },
+      { error: 'Failed to process analysis' },
       { status: 500 }
     );
   }
