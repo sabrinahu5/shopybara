@@ -1,7 +1,5 @@
 import SpotifyAlbumDemo from "./ui/LandingPage/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/LandingPage/InfiniteMovingCards";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 
 const amazonFinds = [
   {

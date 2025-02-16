@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -25,11 +26,20 @@ export default function NavBar() {
   }, [user]);
 
   const handleSignIn = async () => {
-    const response = await fetch("/api/signin");
-    const { url } = await response.json();
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `http://${process.env.FRONTEND_URL}/auth/callback`,
+      },
+    });
 
-    if ()
-    router.push("/home");
+    if (error) {
+      throw error;
+    }
+
+    if (data.url) {
+      redirect(data.url);
+    }
   };
 
   const handleSignOut = async () => {
@@ -46,12 +56,9 @@ export default function NavBar() {
     <div className="border-b border-gray-200 dark:border-gray-800">
       <div className="px-4 sm:px-6 lg:px-20 pt-4">
         <div className="flex justify-between items-center">
-          <a
-            href="/"
-            className="text-2xl font-bold text-gray-900 dark:text-white"
-          >
+          <div className="text-2xl font-bold text-gray-900 dark:text-white">
             shopy<span className="text-[#464646]">bara</span>
-          </a>
+          </div>
           <div className="flex gap-4">
             {!user ? (
               <button
