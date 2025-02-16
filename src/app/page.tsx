@@ -3,6 +3,7 @@
 import { createBrowserSupabaseClient } from "@/lib/client-utils";
 import SpotifyAlbumDemo from "./ui/Home/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
+import { FlipWords } from "./ui/Home/FlipWords";
 
 const amazonFinds = [
   {
@@ -60,6 +61,8 @@ const amazonFinds = [
 export default async function LandingPage() {
   const supabase = createBrowserSupabaseClient();
 
+  const words = ["Spotify", "Pinterest"];
+
   const handleSignUp = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -85,9 +88,8 @@ export default async function LandingPage() {
         <div className="px-4 sm:px-6 lg:px-20 w-full">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-              <small>your</small> Spotify Songs <small>&</small> Pinterest Boards,
-              <br />
-              <span className="">Turned to Room Inspos</span>
+              Your <FlipWords words={words} /> <br />
+              <span className="">Turned to Room Inspo</span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed">
               Discover and shop furniture that matches your Pinterest inspiration,
