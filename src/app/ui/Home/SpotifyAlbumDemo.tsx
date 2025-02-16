@@ -110,7 +110,7 @@ export default function SpotifyAlbumDemo() {
             <h1 className="text-4xl font-bold mb-4 text-black">AI Analysis</h1>
             <TextGenerateEffect 
               words={analysis}
-              className="text-lg"
+              className="text-lg font-light"
               duration={0.4}
             />
           </>
