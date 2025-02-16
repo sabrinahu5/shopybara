@@ -5,7 +5,7 @@ import { env } from "@/env.mjs";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
-import { type Database } from "../app/lib/schema";
+import { type Database } from "@/lib/schema";
 
 /*
  * Note: When developing you may get an error pointing to this file, with the message:

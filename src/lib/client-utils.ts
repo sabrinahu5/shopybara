@@ -16,7 +16,7 @@ import "client-only";
 
 import { env } from "@/env.mjs";
 import { createBrowserClient } from "@supabase/ssr";
-import type { Database } from "./schema";
+import { type Database } from "@/lib/schema";
 
 // Function to access Supabase from Client Components, which run in the browser.
 
