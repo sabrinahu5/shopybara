@@ -2,35 +2,55 @@ import { SignUpButton } from "@clerk/nextjs";
 import SpotifyAlbumDemo from "./ui/Home/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
 
-const testimonials = [
+const amazonFinds = [
   {
-    quote: "This is the best music app I've ever used!",
-    name: "John Doe",
-    title: "Music Producer"
+    id: "1",
+    created_at: new Date(),
+    title: "Modern Velvet Accent Chair",
+    description: "Luxurious velvet armchair with gold-finished steel legs, perfect for living room corners",
+    url_to_product: "https://amazon.com/sample-product-1",
+    image_url: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c",
+    price: "$299.99"
   },
   {
-    quote: "The AI recommendations are spot on!",
-    name: "Jane Smith",
-    title: "Professional DJ"
+    id: "2",
+    created_at: new Date(),
+    title: "Minimalist Coffee Table",
+    description: "Scandinavian-style wooden coffee table with white marble top",
+    url_to_product: "https://amazon.com/sample-product-2",
+    image_url: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88",
+    price: "$199.99"
   },
   {
-    quote: "I can't imagine making music without this now.",
-    name: "Mike Johnson",
-    title: "Amateur Musician"
+    id: "3",
+    created_at: new Date(),
+    title: "Geometric Area Rug 5x7",
+    description: "Contemporary geometric pattern rug in neutral tones, soft pile height",
+    url_to_product: "https://amazon.com/sample-product-3",
+    image_url: "https://images.unsplash.com/photo-1531985673600-75d2b348ad3c",
+    price: "$129.99"
   },
   {
-    quote: "Revolutionary way to collaborate with others.",
-    name: "Sarah Williams",
-    title: "Songwriter"
+    id: "4",
+    created_at: new Date(),
+    title: "Industrial Pendant Light",
+    description: "Matte black metal pendant light with exposed bulb design",
+    url_to_product: "https://amazon.com/sample-product-4",
+    image_url: "https://images.unsplash.com/photo-1524484485831-a92ffc0de03f",
+    price: "$89.99"
   },
   {
-    quote: "The interface is so intuitive and beautiful.",
-    name: "Alex Brown",
-    title: "Music Student"
-  },
+    id: "5",
+    created_at: new Date(),
+    title: "Floating Wall Shelves Set",
+    description: "Set of 3 wooden floating shelves with hidden brackets",
+    url_to_product: "https://amazon.com/sample-product-5",
+    image_url: "https://images.unsplash.com/photo-1532372320572-cda25653a26d",
+    price: "$49.99"
+  }
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
   return (
     <div className="dark:bg-gray-900">
       {/* Hero Section */}
@@ -112,9 +132,9 @@ export default function LandingPage() {
         <div className="w-full">
             <SpotifyAlbumDemo />
             <InfiniteMovingCards
-              items={testimonials}
-              direction="left"
-              speed="slow"
+              items={amazonFinds}
+              direction="right"
+              speed="fast"
             />
         </div>
       </section>

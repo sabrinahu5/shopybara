@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-
+import type { AmazonFindCard } from "@/app/types/amazonFinds";
 export const InfiniteMovingCards = ({
   items,
   direction = "left",
@@ -10,11 +10,7 @@ export const InfiniteMovingCards = ({
   pauseOnHover = true,
   className,
 }: {
-  items: {
-    quote: string;
-    name: string;
-    title: string;
-  }[];
+  items: AmazonFindCard[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
   pauseOnHover?: boolean;
@@ -92,27 +88,34 @@ export const InfiniteMovingCards = ({
               background:
                 "linear-gradient(180deg, var(--slate-800), var(--slate-900)",
             }}
-            key={item.name}
+            key={item.title}
           >
-            <blockquote>
-              <div
-                aria-hidden="true"
-                className="user-select-none -z-1 pointer-events-none absolute -left-0.5 -top-0.5 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
-              ></div>
-              <span className=" relative z-20 text-sm leading-[1.6] text-gray-100 font-normal">
-                {item.quote}
-              </span>
-              <div className="relative z-20 mt-6 flex flex-row items-center">
-                <span className="flex flex-col gap-1">
-                  <span className=" text-sm leading-[1.6] text-gray-400 font-normal">
-                    {item.name}
-                  </span>
-                  <span className=" text-sm leading-[1.6] text-gray-400 font-normal">
-                    {item.title}
-                  </span>
+            <div className="relative z-20">
+              <img 
+                src={item.image_url} 
+                alt={item.title}
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
+              <h3 className="text-lg font-semibold text-gray-100 mb-2">
+                {item.title}
+              </h3>
+              <p className="text-sm text-gray-400 mb-4">
+                {item.description}
+              </p>
+              <div className="flex justify-between items-center">
+                <span className="text-lg font-bold text-gray-100">
+                  {item.price}
                 </span>
+                <a 
+                  href={item.url_to_product}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-teal-500 hover:text-teal-400"
+                >
+                  View on Amazon
+                </a>
               </div>
-            </blockquote>
+            </div>
           </li>
         ))}
       </ul>
