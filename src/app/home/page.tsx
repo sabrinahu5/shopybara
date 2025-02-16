@@ -27,7 +27,7 @@ export default async function Home() {
         Want to find more items?
       </h1>
       <a
-        href={`${process.env.FRONTEND_URL}/home?newUser=true`}
+        href={`${process.env.VERCEL_URL}/home?newUser=true`}
         className="flex justify-center"
       >
         <div className="w-[80px] px-4 py-2 b text-[#262626] bg-[#FFFFFF] border-gray-300 border rounded-md shadow-md">

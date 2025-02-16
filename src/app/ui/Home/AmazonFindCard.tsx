@@ -4,7 +4,11 @@ import Link from "next/link";
 
 export default function AmazonFindCard(results: AmazonFindCard) {
   return (
-    <Link href={results.url_to_product} target="_blank" rel="noopener noreferrer">
+    <Link
+      href={results.url_to_product}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <DirectionAwareHover
         imageUrl={results.image_url}
         imageClassName="object-contain hover:object-cover p-2"
