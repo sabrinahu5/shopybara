@@ -40,9 +40,7 @@ export async function GET(request: Request) {
         .single();
 
       // Create response with cookies
-      const response = NextResponse.redirect(
-        profile ? `${origin}/home` : `${origin}/onboarding`
-      );
+      const response = NextResponse.redirect(`${origin}/onboarding`);
 
       // Copy over the cookies from the supabase response
       const supabaseCookies = cookieStore.getAll();
