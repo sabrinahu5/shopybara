@@ -111,7 +111,7 @@ export default function SpotifyAlbumDemo() {
             <TextGenerateEffect 
               words={analysis}
               className="text-lg"
-              duration={0.5}
+              duration={0.4}
             />
           </>
         )}

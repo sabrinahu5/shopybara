@@ -7,6 +7,7 @@ import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
 const amazonFinds = [
   {
     id: "1",
+    profile_id: "default",
     created_at: new Date(),
     title: "Modern Velvet Accent Chair",
     description: "Luxurious velvet armchair with gold-finished steel legs, perfect for living room corners",
@@ -16,6 +17,7 @@ const amazonFinds = [
   },
   {
     id: "2",
+    profile_id: "default",
     created_at: new Date(),
     title: "Minimalist Coffee Table",
     description: "Scandinavian-style wooden coffee table with white marble top",
@@ -25,6 +27,7 @@ const amazonFinds = [
   },
   {
     id: "3",
+    profile_id: "default",
     created_at: new Date(),
     title: "Geometric Area Rug 5x7",
     description: "Contemporary geometric pattern rug in neutral tones, soft pile height",
@@ -34,6 +37,7 @@ const amazonFinds = [
   },
   {
     id: "4",
+    profile_id: "default",
     created_at: new Date(),
     title: "Industrial Pendant Light",
     description: "Matte black metal pendant light with exposed bulb design",
@@ -43,6 +47,7 @@ const amazonFinds = [
   },
   {
     id: "5",
+    profile_id: "default",
     created_at: new Date(),
     title: "Floating Wall Shelves Set",
     description: "Set of 3 wooden floating shelves with hidden brackets",

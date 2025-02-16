@@ -7,7 +7,7 @@ export default function AmazonFindCard(results: AmazonFindCard) {
     <Link href={results.url_to_product} target="_blank" rel="noopener noreferrer">
       <DirectionAwareHover
         imageUrl={results.image_url}
-        imageClassName="object-contain p-4"
+        imageClassName="object-contain hover:object-cover p-2"
       >
         <div className="space-y-2">
           <h3 className="font-bold text-lg line-clamp-2">{results.title}</h3>
