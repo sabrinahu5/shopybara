@@ -89,7 +89,7 @@ export default function SpotifyAlbumDemo() {
               height={288}
               className="rounded-lg"
             />
-            <div className="flex flex-col text-white">
+            <div className="flex flex-col text-black">
               <h3 className="font-bold text-lg">{track.name}</h3>
               <p className="text-sm opacity-70">{track.artists[0].name}</p>
             </div>
@@ -107,7 +107,7 @@ export default function SpotifyAlbumDemo() {
       >
         {isHovered && analysis && (
           <>
-            <h2 className="text-2xl font-bold mb-4 text-black">AI Analysis</h2>
+            <h1 className="text-4xl font-bold mb-4 text-black">AI Analysis</h1>
             <TextGenerateEffect 
               words={analysis}
               className="text-lg"
