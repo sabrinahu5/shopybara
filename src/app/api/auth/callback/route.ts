@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -7,7 +8,7 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
 
   if (code) {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -26,28 +27,20 @@ export async function GET(request: Request) {
       }
     );
 
-    const { data: { user }, error } = await supabase.auth.exchangeCodeForSession(code);
-    
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.exchangeCodeForSession(code);
+
     if (!error && user) {
       // Check if user has a profile
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
         .single();
 
-      // Create response with cookies
-      const response = NextResponse.redirect(
-        profile ? `${origin}/home` : `${origin}/onboarding`
-      );
-
-      // Copy over the cookies from the supabase response
-      const supabaseCookies = cookieStore.getAll();
-      supabaseCookies.forEach(cookie => {
-        response.cookies.set(cookie.name, cookie.value, cookie);
-      });
-
-      return response;
+      redirect(profile ? `${origin}/home` : `${origin}/onboarding`);
     }
   }
 

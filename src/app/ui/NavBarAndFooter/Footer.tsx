@@ -1,4 +1,4 @@
-export default function NavBar() {
+export default function Footer() {
   return (
     <div className="border-t border-gray-200 dark:border-gray-800">
       <div className="px-4 sm:px-6 lg:px-20 py-6">

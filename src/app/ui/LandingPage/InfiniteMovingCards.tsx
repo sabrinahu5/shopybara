@@ -69,7 +69,7 @@ export const InfiniteMovingCards = ({
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20  max-w-7xl overflow-hidden  [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        "scroller relative z-20 overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
         className
       )}
     >
@@ -91,22 +91,20 @@ export const InfiniteMovingCards = ({
             key={item.title}
           >
             <div className="relative z-20">
-              <img 
-                src={item.image_url} 
+              <img
+                src={item.image_url}
                 alt={item.title}
                 className="w-full h-48 object-cover rounded-lg mb-4"
               />
               <h3 className="text-lg font-semibold text-gray-100 mb-2">
                 {item.title}
               </h3>
-              <p className="text-sm text-gray-400 mb-4">
-                {item.description}
-              </p>
+              <p className="text-sm text-gray-400 mb-4">{item.description}</p>
               <div className="flex justify-between items-center">
                 <span className="text-lg font-bold text-gray-100">
                   {item.price}
                 </span>
-                <a 
+                <a
                   href={item.url_to_product}
                   target="_blank"
                   rel="noopener noreferrer"

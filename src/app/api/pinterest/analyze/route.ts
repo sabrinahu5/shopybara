@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { OpenAI } from "openai";
-import { chromium } from 'playwright';
-import { load } from 'cheerio';
+import { chromium } from "playwright";
+import { load } from "cheerio";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -23,10 +23,10 @@ async function scrapeImages(url: string) {
 
   const $ = load(html);
   const imageUrls: string[] = [];
-  
-  $('img').each((_, element) => {
-    const src = $(element).attr('src');
-    if (src && !src.includes('profile') && !src.includes('avatar')) {
+
+  $("img").each((_, element) => {
+    const src = $(element).attr("src");
+    if (src && !src.includes("profile") && !src.includes("avatar")) {
       imageUrls.push(src);
     }
   });
@@ -42,15 +42,18 @@ async function getImageDescriptions(imageUrls: string[]) {
   for (const url of limitedUrls) {
     try {
       // Add delay between requests
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
           {
             role: "user",
             content: [
-              { type: "text", text: "Give 5-6 words that describe the vibe of this image. This can include any standout colors, activities, or objects." },
+              {
+                type: "text",
+                text: "Give 5-6 words that describe the vibe of this image. This can include any standout colors, activities, or objects.",
+              },
               {
                 type: "image_url",
                 image_url: { url },
@@ -73,12 +76,10 @@ async function getImageDescriptions(imageUrls: string[]) {
 export async function POST(request: Request) {
   try {
     const { url } = await request.json();
-    
+
     // Scrape image URLs
     const imageUrls = await scrapeImages(url);
-    // Log image URLs to console
-    console.log('Scraped image URLs:', imageUrls);
-    
+
     // Get descriptions for each image
     const descriptions = await getImageDescriptions(imageUrls);
 
@@ -90,10 +91,10 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error('Error analyzing Pinterest board:', error);
+    console.error("Error analyzing Pinterest board:", error);
     return NextResponse.json(
-      { error: 'Failed to analyze Pinterest board' },
+      { error: "Failed to analyze Pinterest board" },
       { status: 500 }
     );
   }
-} 
+}
