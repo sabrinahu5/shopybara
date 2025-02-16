@@ -1,8 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import Image from "next/image";
-import { DirectionAwareHover } from "../Home/DirectionAwareHover";
+import { DirectionAwareHover } from "../LandingPage/DirectionAwareHover";
 
 interface StaticCardProps {
   title: string;
@@ -21,18 +20,19 @@ export const StaticCard = ({
   description,
   imageUrl,
   href,
-  className,
   containerClassName,
   openInNewTab = false,
 }: StaticCardProps) => {
-  const LinkWrapper = openInNewTab ? 'a' : Link;
-  const linkProps = openInNewTab ? {
-    href: href || "/",
-    target: "_blank",
-    rel: "noopener noreferrer"
-  } : {
-    href: href || "/"
-  };
+  const LinkWrapper = openInNewTab ? "a" : Link;
+  const linkProps = openInNewTab
+    ? {
+        href: href || "/",
+        target: "_blank",
+        rel: "noopener noreferrer",
+      }
+    : {
+        href: href || "/",
+      };
 
   return (
     <LinkWrapper
@@ -45,14 +45,10 @@ export const StaticCard = ({
             <h3 className="text-white font-semibold text-lg line-clamp-2">
               {title}
             </h3>
-            <span className="text-emerald-400 font-bold">
-              {price}
-            </span>
+            <span className="text-emerald-400 font-bold">{price}</span>
           </div>
-          
-          <p className="text-gray-400 text-sm line-clamp-2">
-            {description}
-          </p>
+
+          <p className="text-gray-400 text-sm line-clamp-2">{description}</p>
         </div>
       </DirectionAwareHover>
     </LinkWrapper>
