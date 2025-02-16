@@ -1,8 +1,15 @@
 "use client";
 
+<<<<<<< HEAD
 import { createClient } from "@/utils/supabase/client";
 import SpotifyAlbumDemo from "./ui/LandingPage/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/LandingPage/InfiniteMovingCards";
+=======
+import { createBrowserSupabaseClient } from "@/lib/client-utils";
+import SpotifyAlbumDemo from "./ui/Home/SpotifyAlbumDemo";
+import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
+import { FlipWords } from "./ui/Home/FlipWords";
+>>>>>>> sabrina-work
 
 const amazonFinds = [
   {
@@ -62,6 +69,8 @@ const amazonFinds = [
 export default function LandingPage() {
   const supabase = createClient();
 
+  const words = ["Spotify", "Pinterest"];
+
   const handleSignUp = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -86,11 +95,17 @@ export default function LandingPage() {
       <section className="min-h-screen flex items-center">
         <div className="px-4 sm:px-6 lg:px-20 w-full">
           <div className="text-center max-w-3xl mx-auto">
+<<<<<<< HEAD
             <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
               <small>your</small> Spotify Songs <small>&</small> Pinterest
               Boards,
               <br />
               <span className="">Turned to Room Inspos</span>
+=======
+            <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+              Your <FlipWords words={words} /> <br />
+              <span className="">Turned to Room Inspo</span>
+>>>>>>> sabrina-work
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 leading-relaxed">
               Discover and shop furniture that matches your Pinterest
