@@ -23,6 +23,32 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check if profile exists, if not create it
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile) {
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert([
+          {
+            id: user.id,
+            email: user.email
+          }
+        ]);
+
+      if (profileError) {
+        console.error('Error creating profile:', profileError);
+        return NextResponse.json(
+          { error: 'Failed to create profile' },
+          { status: 500 }
+        );
+      }
+    }
+
     console.log('Spotify Analysis:', spotifyData.vibeAnalysis);
     console.log('Pinterest Analysis:', pinterestData.descriptions);
 

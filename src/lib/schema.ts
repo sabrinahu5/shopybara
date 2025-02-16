@@ -5,20 +5,14 @@ export interface Database {
     Tables: {
       profiles: {
         Row: {
-          biography: string | null;
-          display_name: string;
           email: string;
           id: string;
         };
         Insert: {
-          biography?: string | null;
-          display_name: string;
           email: string;
           id: string;
         };
         Update: {
-          biography?: string | null;
-          display_name?: string;
           email?: string;
           id?: string;
         };
