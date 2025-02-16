@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import PinterestModal from '../ui/Home/PinterestModal';
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import PinterestModal from "../ui/LandingPage/PinterestModal";
 
 export default function PinterestModalWrapper() {
   const searchParams = useSearchParams();
@@ -10,7 +10,7 @@ export default function PinterestModalWrapper() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const isNewUser = searchParams.get('newUser') === 'true';
+    const isNewUser = searchParams.get("newUser") === "true";
     if (isNewUser) {
       setShowModal(true);
     }
@@ -19,54 +19,55 @@ export default function PinterestModalWrapper() {
   const handleModalClose = async (pinterestUrl?: string) => {
     if (pinterestUrl) {
       try {
-        const spotifyToken = localStorage.getItem('spotifyToken');
-        
+        const spotifyToken = localStorage.getItem("spotifyToken");
+
         if (!spotifyToken) {
-          throw new Error('No Spotify token found');
+          throw new Error("No Spotify token found");
         }
 
         // Fetch both analyses in parallel
         const [pinterestResponse, spotifyResponse] = await Promise.all([
-          fetch('/api/pinterest/analyze', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ url: pinterestUrl })
+          fetch("/api/pinterest/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: pinterestUrl }),
           }),
-          fetch('/api/spotify/analyze', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ access_token: spotifyToken })
-          })
+          fetch("/api/spotify/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ access_token: spotifyToken }),
+          }),
         ]);
 
         const [pinterestData, spotifyData] = await Promise.all([
           pinterestResponse.json(),
-          spotifyResponse.json()
+          spotifyResponse.json(),
         ]);
 
-        const combinedResponse = await fetch('/api/combine-analysis', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const combinedResponse = await fetch("/api/combine-analysis", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             spotifyData: spotifyData.data,
-            pinterestData: pinterestData.data
-          })
+            pinterestData: pinterestData.data,
+          }),
         });
 
         const finalAnalysis = await combinedResponse.json();
-        console.log('Combined Analysis:', finalAnalysis);
+        console.log("Combined Analysis:", finalAnalysis);
+        setShowModal(false);
       } catch (error) {
-        console.error('Error processing analyses:', error);
+        console.error("Error processing analyses:", error);
       }
     }
-    
+
     // Remove newUser parameter from URL
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.delete('newUser');
+    params.delete("newUser");
     router.replace(`/home?${params.toString()}`);
-    
+
     setShowModal(false);
   };
 
   return <PinterestModal isOpen={showModal} onClose={handleModalClose} />;
-} 
+}

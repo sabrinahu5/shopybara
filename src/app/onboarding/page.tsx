@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function generateCodeVerifier(length: number) {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let text = "";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
@@ -14,17 +15,17 @@ function generateCodeVerifier(length: number) {
 
 async function generateCodeChallenge(codeVerifier: string) {
   const data = new TextEncoder().encode(codeVerifier);
-  const digest = await window.crypto.subtle.digest('SHA-256', data);
+  const digest = await window.crypto.subtle.digest("SHA-256", data);
   return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
 }
 
 export default function Onboarding() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const code = searchParams.get('code');
+  const code = searchParams.get("code");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function Onboarding() {
   async function redirectToAuthCodeFlow() {
     const verifier = generateCodeVerifier(128);
     const challenge = await generateCodeChallenge(verifier);
-    
+
     localStorage.setItem("verifier", verifier);
 
     const params = new URLSearchParams();
@@ -65,32 +66,37 @@ export default function Onboarding() {
       const result = await fetch("https://accounts.spotify.com/api/token", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params
+        body: params,
       });
 
       const data = await result.json();
-      
+
       if (data.error) {
         throw new Error(data.error);
       }
 
-      const analysisResponse = await fetch('/api/spotify/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ access_token: data.access_token })
+      const analysisResponse = await fetch("/api/spotify/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ access_token: data.access_token }),
       });
 
       const analysisData = await analysisResponse.json();
 
       // Store both analysis and token
-      localStorage.setItem('spotifyAnalysis', JSON.stringify(analysisData.data));
-      localStorage.setItem('spotifyToken', data.access_token);
+      localStorage.setItem(
+        "spotifyAnalysis",
+        JSON.stringify(analysisData.data)
+      );
+      localStorage.setItem("spotifyToken", data.access_token);
 
       // If successful, redirect to home
-      router.push('/home?newUser=true');
+      router.push("/home?newUser=true");
     } catch (error) {
-      console.error('Error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to connect to Spotify');
+      console.error("Error:", error);
+      setError(
+        error instanceof Error ? error.message : "Failed to connect to Spotify"
+      );
     }
   }
 
@@ -101,7 +107,7 @@ export default function Onboarding() {
           <h1 className="text-2xl font-bold text-red-600 mb-4">Error</h1>
           <p className="text-gray-700 dark:text-gray-300 mb-4">{error}</p>
           <button
-            onClick={() => window.location.href = '/onboarding'}
+            onClick={() => (window.location.href = "/onboarding")}
             className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
             Try Again
