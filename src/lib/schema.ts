@@ -28,7 +28,81 @@ export interface Database {
             columns: ["id"];
             referencedRelation: "users";
             referencedColumns: ["id"];
-          },
+          }
+        ];
+      };
+      amazon_finds: {
+        Row: {
+          id: string;
+          created_at: string;
+          title: string;
+          description: string;
+          url_to_product: string;
+          image_url: string;
+          price: string;
+          profile_id: string;
+        };
+        Insert: {
+          id: string;
+          created_at: string;
+          title: string;
+          description: string;
+          url_to_product: string;
+          image_url: string;
+          price: string;
+          profile_id: string;
+        };
+        Update: {
+          id?: string;
+          created_at?: string;
+          title?: string;
+          description?: string;
+          url_to_product?: string;
+          image_url?: string;
+          price?: string;
+          profile_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "amazon_finds_profile_id_fkey";
+            columns: ["profile_id"];
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      amazon_finds_reviews: {
+        Row: {
+          id: string;
+          created_at: string;
+          title: string;
+          description: string;
+          rating: string;
+          amazon_finds_id: string;
+        };
+        Insert: {
+          id: string;
+          created_at: string;
+          title: string;
+          description: string;
+          rating: string;
+          amazon_finds_id: string;
+        };
+        Update: {
+          id?: string;
+          created_at?: string;
+          title?: string;
+          description?: string;
+          rating?: string;
+          amazon_finds_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "amazon_finds_reviews_amazon_finds_id_fkey";
+            columns: ["amazon_finds_id"];
+            referencedRelation: "amazon_finds";
+            referencedColumns: ["id"];
+          }
         ];
       };
     };
