@@ -74,18 +74,7 @@ export default function LandingPage() {
         data: { user },
       } = await supabase.auth.getUser();
       if (user) {
-        // Check if user has completed onboarding
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .single();
-        
-        if (profile) {
-          router.push("/home");
-        } else {
-          router.push("/onboarding");
-        }
+        router.push("/onboarding");
       }
     };
 
