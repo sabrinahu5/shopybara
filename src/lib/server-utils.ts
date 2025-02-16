@@ -31,30 +31,28 @@ export const createServerSupabaseClient = () => {
     See the Next.js docs to learn more about opting out of data caching:
     https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating#opting-out-of-data-caching
   */
-  const cookieStore = cookies();
 
   // Injects type dependencies from database schema (<Database>)
   const supabase = createServerClient<Database>(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY, {
     cookies: {
-      get(name: string) {
+      async get(name: string) {
+        const cookieStore = await cookies();
         return cookieStore.get(name)?.value;
       },
-      set(name: string, value: string, options: CookieOptions) {
+      async set(name: string, value: string, options: CookieOptions) {
         try {
+          const cookieStore = await cookies();
           cookieStore.set({ name, value, ...options });
         } catch (error) {
-          // The `set` method was called from a Server Component.
-          // This can be ignored if you have middleware refreshing
-          // user sessions.
+          console.error('Error setting cookie:', error);
         }
       },
-      remove(name: string, options: CookieOptions) {
+      async remove(name: string, options: CookieOptions) {
         try {
+          const cookieStore = await cookies();
           cookieStore.set({ name, value: "", ...options });
         } catch (error) {
-          // The `delete` method was called from a Server Component.
-          // This can be ignored if you have middleware refreshing
-          // user sessions.
+          console.error('Error removing cookie:', error);
         }
       },
     },
