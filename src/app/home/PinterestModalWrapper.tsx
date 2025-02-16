@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import PinterestModal from '../ui/Home/PinterestModal';
 
 export default function PinterestModalWrapper() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -54,13 +55,17 @@ export default function PinterestModalWrapper() {
 
         const finalAnalysis = await combinedResponse.json();
         console.log('Combined Analysis:', finalAnalysis);
-        setShowModal(false);
       } catch (error) {
         console.error('Error processing analyses:', error);
       }
-    } else {
-      setShowModal(false);
     }
+    
+    // Remove newUser parameter from URL
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.delete('newUser');
+    router.replace(`/home?${params.toString()}`);
+    
+    setShowModal(false);
   };
 
   return <PinterestModal isOpen={showModal} onClose={handleModalClose} />;

@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 
       Please provide:
       1. A comprehensive analysis of their overall aesthetic, vibe, and interests (3-4 sentences)
-      2. A curated list of exactly 15 specific furniture and decor item (< 5 words each) that would create their perfect room, taking into account both their music taste and visual preferences.
+      2. A curated list of exactly 15 specific furniture or decor items (2-4 words each) that would create their perfect room, taking into account both their music taste and visual preferences.
       
       Format the response as:
       PERSONALITY ANALYSIS:
