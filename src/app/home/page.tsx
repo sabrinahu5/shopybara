@@ -1,35 +1,21 @@
-"use client";
-
-import { createBrowserSupabaseClient } from "@/lib/client-utils";
+import { createClient } from "@/utils/supabase/server";
 import AmazonFindCards from "../ui/LandingPage/AmazonFindCards";
 import { playfairDisplay } from "../ui/fonts";
 import PinterestModalWrapper from "./PinterestModalWrapper";
 import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
 
-export default function Home() {
-  // Create supabase server component client and obtain user session from Supabase Auth
-  const supabase = createBrowserSupabaseClient();
-  const [user, setUser] = useState<User | null>(null);
+export default async function Home() {
+  const supabase = await createClient();
 
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
-    };
-    getUser();
-  }, [supabase]);
-
-  if (!user) {
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
     redirect("/");
   }
 
   return (
     <div className="flex flex-col gap-6 px-20 py-4">
       <PinterestModalWrapper />
+      <p>Hello {data.user.email}</p>
       <h1 className={`${playfairDisplay.className} antialiased text-xl`}>
         Here are is your most recently saved list of curated items:
       </h1>

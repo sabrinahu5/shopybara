@@ -1,51 +1,53 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { createBrowserSupabaseClient } from "@/lib/client-utils";
-import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function NavBar() {
-  const router = useRouter();
-  const supabase = createBrowserSupabaseClient();
-  const [user, setUser] = useState<User | null>(null);
+  const supabase = createClient();
+  const [user, setUser] = useState<null | User>(null);
 
   useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
+    const checkUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error) {
+        throw error;
+      }
+
+      setUser(data.user);
     };
-    getUser();
-  }, [supabase]);
+
+    checkUser();
+  }, []);
 
   const handleSignIn = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/auth/callback`,
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
+        redirectTo: "http://localhost:3000/auth/callback",
       },
     });
 
     if (error) {
-      console.error("Sign in error:", error.message);
-      return;
+      throw error;
+    }
+
+    if (data.url) {
+      redirect(data.url);
     }
   };
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
+
     if (error) {
-      console.error("Sign out error:", error.message);
-      return;
+      throw error;
     }
-    setUser(null);
-    router.push("/");
+
+    redirect("/");
   };
 
   return (

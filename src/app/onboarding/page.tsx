@@ -1,30 +1,17 @@
-"use client";
 import { redirect } from "next/navigation";
-import { createBrowserSupabaseClient } from "@/lib/client-utils";
-import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/server";
 
-export default function Onboarding() {
-  const supabase = createBrowserSupabaseClient();
-  const [user, setUser] = useState<User | null>(null);
+export default async function Onboarding() {
+  const supabase = await createClient();
 
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
-    };
-    getUser();
-  }, [supabase]);
-
-  if (!user) {
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
     redirect("/");
   }
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
-      hi
+      <p>Hello {data.user.email}</p>
     </div>
   );
 }

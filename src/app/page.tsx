@@ -1,8 +1,7 @@
-"use client";
-
-import { createBrowserSupabaseClient } from "@/lib/client-utils";
 import SpotifyAlbumDemo from "./ui/LandingPage/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/LandingPage/InfiniteMovingCards";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 const amazonFinds = [
   {
@@ -54,26 +53,13 @@ const amazonFinds = [
   },
 ];
 
-export default function LandingPage() {
-  const supabase = createBrowserSupabaseClient();
+export default async function LandingPage() {
+  const supabase = await createClient();
 
-  const handleSignUp = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/auth/callback`,
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
-
-    if (error) {
-      console.error("Sign up error:", error.message);
-      return;
-    }
-  };
+  const { data, error } = await supabase.auth.getUser();
+  if (data?.user) {
+    redirect("/onboarding");
+  }
 
   return (
     <div className="dark:bg-gray-900">
@@ -89,15 +75,6 @@ export default function LandingPage() {
             Discover and shop furniture that matches your Pinterest inspiration,
             powered by AI that understands your style.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleSignUp}
-              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 transition-colors"
-            >
-              Get Started
-            </button>
-          </div>
 
           {/* Features Section - Moved here */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
