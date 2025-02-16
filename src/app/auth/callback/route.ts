@@ -26,14 +26,17 @@ export async function GET(request: Request) {
       }
     );
 
-    const { data: { user }, error } = await supabase.auth.exchangeCodeForSession(code);
-    
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.exchangeCodeForSession(code);
+
     if (!error && user) {
       // Check if user has a profile
       const { data: profile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
+        .from("profiles")
+        .select("*")
+        .eq("email", user.email)
         .single();
 
       // Create response with cookies
@@ -43,7 +46,7 @@ export async function GET(request: Request) {
 
       // Copy over the cookies from the supabase response
       const supabaseCookies = cookieStore.getAll();
-      supabaseCookies.forEach(cookie => {
+      supabaseCookies.forEach((cookie) => {
         response.cookies.set(cookie.name, cookie.value, cookie);
       });
 
