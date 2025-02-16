@@ -3,7 +3,6 @@ import "./globals.css";
 import { inter } from "./ui/fonts";
 import NavBar from "./ui/NavBarAndFooter/NavBar";
 import Footer from "./ui/NavBarAndFooter/Footer";
-import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "shopybara",
@@ -17,14 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} antialiased`}>
-          <NavBar />
-          {children}
-          <Footer />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>
+        <NavBar />
+        {children}
+        <Footer />
+      </body>
+    </html>
   );
 }

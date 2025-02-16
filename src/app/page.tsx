@@ -1,4 +1,6 @@
-import { SignUpButton } from "@clerk/nextjs";
+'use client'
+
+import { createBrowserSupabaseClient } from "@/lib/client-utils";
 import SpotifyAlbumDemo from "./ui/Home/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
 
@@ -51,6 +53,26 @@ const amazonFinds = [
 ];
 
 export default async function LandingPage() {
+  const supabase = createBrowserSupabaseClient();
+
+  const handleSignUp = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      }
+    });
+
+    if (error) {
+      console.error('Sign up error:', error.message);
+      return;
+    }
+  };
+
   return (
     <div className="dark:bg-gray-900">
       {/* Hero Section */}
@@ -67,13 +89,14 @@ export default async function LandingPage() {
               powered by AI that understands your style.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <SignUpButton mode="modal">
-                <button className="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 transition-colors">
-                  Get Started
-                </button>
-              </SignUpButton>
-            </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <button
+              onClick={handleSignUp}
+              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 transition-colors"
+            >
+              Get Started
+            </button>
+          </div>
 
             {/* Features Section - Moved here */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
