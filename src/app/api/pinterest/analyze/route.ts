@@ -45,7 +45,7 @@ async function getImageDescriptions(imageUrls: string[]) {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-3.5-turbo",
         messages: [
           {
             role: "user",
