@@ -1,5 +1,34 @@
 import { SignUpButton } from "@clerk/nextjs";
 import SpotifyAlbumDemo from "./ui/Home/SpotifyAlbumDemo";
+import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
+
+const testimonials = [
+  {
+    quote: "This is the best music app I've ever used!",
+    name: "John Doe",
+    title: "Music Producer"
+  },
+  {
+    quote: "The AI recommendations are spot on!",
+    name: "Jane Smith",
+    title: "Professional DJ"
+  },
+  {
+    quote: "I can't imagine making music without this now.",
+    name: "Mike Johnson",
+    title: "Amateur Musician"
+  },
+  {
+    quote: "Revolutionary way to collaborate with others.",
+    name: "Sarah Williams",
+    title: "Songwriter"
+  },
+  {
+    quote: "The interface is so intuitive and beautiful.",
+    name: "Alex Brown",
+    title: "Music Student"
+  },
+];
 
 export default function LandingPage() {
   return (
@@ -82,6 +111,11 @@ export default function LandingPage() {
       <section className="min-h-screen bg-gray-50 dark:bg-gray-800">
         <div className="w-full">
             <SpotifyAlbumDemo />
+            <InfiniteMovingCards
+              items={testimonials}
+              direction="left"
+              speed="slow"
+            />
         </div>
       </section>
     </div>
