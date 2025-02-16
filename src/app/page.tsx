@@ -34,7 +34,7 @@ const amazonFinds = [
     description:
       "Contemporary geometric pattern rug in neutral tones, soft pile height",
     url_to_product: "https://amazon.com/sample-product-3",
-    image_url: "https://images.unsplash.com/photo-1531985673600-75d2b348ad3c",
+    image_url: "https://m.media-amazon.com/images/I/81x+lwsV9ML.jpg",
     price: "$129.99",
   },
   {
