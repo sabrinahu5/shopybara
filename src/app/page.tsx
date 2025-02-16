@@ -1,15 +1,8 @@
 "use client";
 
-<<<<<<< HEAD
 import { createClient } from "@/utils/supabase/client";
 import SpotifyAlbumDemo from "./ui/LandingPage/SpotifyAlbumDemo";
 import { InfiniteMovingCards } from "./ui/LandingPage/InfiniteMovingCards";
-=======
-import { createBrowserSupabaseClient } from "@/lib/client-utils";
-import SpotifyAlbumDemo from "./ui/Home/SpotifyAlbumDemo";
-import { InfiniteMovingCards } from "./ui/Home/InfiniteMovingCards";
-import { FlipWords } from "./ui/Home/FlipWords";
->>>>>>> sabrina-work
 
 const amazonFinds = [
   {
