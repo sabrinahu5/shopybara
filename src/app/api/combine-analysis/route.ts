@@ -298,7 +298,7 @@ const handleAmazonSearch = async (combinedAnalysis: string) => {
   try {
     // Use absolute URL with the current host
     const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-    const host = process.env.VERCEL_URL;
+    const host = process.env.VERCEL_URL || 'localhost:3000';
     const amazonApiUrl = `${protocol}://${host}/api/amazon`;
     console.log('Amazon API URL:', amazonApiUrl);
 

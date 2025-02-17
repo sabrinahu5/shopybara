@@ -74,7 +74,7 @@ export default function LandingPage() {
         data: { user },
       } = await supabase.auth.getUser();
       if (user) {
-        router.push("/onboarding");
+        router.push("/home");
       }
     };
 
@@ -85,7 +85,7 @@ export default function LandingPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${process.env.FRONTEND_URL}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
         queryParams: {
           access_type: "offline",
           prompt: "consent",
