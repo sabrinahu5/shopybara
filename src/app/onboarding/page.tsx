@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { createBrowserSupabaseClient } from '@/lib/client-utils';
 
 function generateCodeVerifier(length: number) {
   let text = '';
@@ -85,6 +86,12 @@ function OnboardingContent() {
       // Store both analysis and token
       localStorage.setItem('spotifyAnalysis', JSON.stringify(analysisData.data));
       localStorage.setItem('spotifyToken', data.access_token);
+
+            // Update user metadata to indicate completed onboarding
+      const supabase = createBrowserSupabaseClient();
+      await supabase.auth.updateUser({
+        data: { has_completed_onboarding: true }
+      });
 
       // If successful, redirect to home
       router.push('/home?newUser=true');

@@ -32,15 +32,13 @@ export async function GET(request: Request) {
     } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error && user) {
-      // Check if user has a profile
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("email", user.email)
-        .single();
+      // Check if user has completed onboarding
+      const hasCompletedOnboarding = user.user_metadata.has_completed_onboarding;
 
       // Create response with cookies
-      const response = NextResponse.redirect(`${origin}/onboarding`);
+      const response = NextResponse.redirect(
+        hasCompletedOnboarding ? `${origin}/home` : `${origin}/onboarding`
+      );
 
       // Copy over the cookies from the supabase response
       const supabaseCookies = cookieStore.getAll();
