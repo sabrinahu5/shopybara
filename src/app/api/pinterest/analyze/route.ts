@@ -7,6 +7,7 @@ const openai = new OpenAI({
 });
 
 async function scrapeImages(url: string) {
+  console.log('Scraping images from:', url);
   const browser = await chromium.launch();
   const page = await browser.newPage();
   
@@ -69,7 +70,9 @@ async function getImageDescriptions(imageUrls: string[]) {
 
 export async function POST(request: Request) {
   try {
+    console.log('Received request at /api/pinterest/analyze');
     const { url } = await request.json();
+    console.log('Pinterest URL:', url);
     
     // Scrape image URLs
     const imageUrls = await scrapeImages(url);
